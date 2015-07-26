@@ -6,15 +6,21 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.blackcj.designsupportexample.PageFragment;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by chris.black on 6/11/15.
  */
 public class TabPagerAdapter extends FragmentPagerAdapter {
+    private Map<Integer, PageFragment> mPageReferenceMap = new HashMap<>();
+
     private static final String[] TITLES = new String[] {
             "Page 1",
             "Page 2",
             "Page 3",
-            "Page 4"
+            "Page 4",
+            "Page 5"
     };
 
     public static final int NUM_TITLES = TITLES.length;
@@ -35,6 +41,17 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return PageFragment.create(position + 1);
+        PageFragment myFragment = PageFragment.create(position + 1);
+        mPageReferenceMap.put(position, myFragment);
+        return myFragment;
+    }
+
+    public void destroy() {
+        mPageReferenceMap.clear();
+    }
+
+    public PageFragment getFragment(int key) {
+        //Log.d(TAG, "GET: " + key);
+        return mPageReferenceMap.get(key);
     }
 }

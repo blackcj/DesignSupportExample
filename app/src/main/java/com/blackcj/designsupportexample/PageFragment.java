@@ -63,7 +63,7 @@ public class PageFragment extends Fragment {
                 }, 1000);
             }
         });
-
+        mSwipeRefreshLayout.setEnabled(false);
         return view;
     }
 
@@ -73,6 +73,21 @@ public class PageFragment extends Fragment {
         if(activity instanceof RecyclerViewAdapter.OnItemClickListener) {
             mCallback = (RecyclerViewAdapter.OnItemClickListener)activity;
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setRefreshing(false);
+            mSwipeRefreshLayout.setEnabled(false);
+            mSwipeRefreshLayout.destroyDrawingCache();
+            mSwipeRefreshLayout.clearAnimation();
+        }
+    }
+
+    public void setSwipeToRefreshEnabled(boolean enabled) {
+        mSwipeRefreshLayout.setEnabled(enabled);
     }
 
     /**
